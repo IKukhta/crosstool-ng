@@ -467,7 +467,7 @@ do_gcc_core_backend() {
         old) glibc_version=1.0;;
         *) glibc_version=`echo "${glibc_version}" | sed 's/\([1-9][0-9]*\.[1-9][0-9]*\).*/\1/'`;;
         esac
-        extra_config+=("--with-glibc-version=${glibc_version}")
+        extra_config+=("--with-glibc-version=2.3")
     fi
 
     case "${CT_CC_GCC_LDBL_128}" in

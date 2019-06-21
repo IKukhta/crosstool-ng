@@ -44,56 +44,11 @@ do_kernel_extract()
 # Install kernel headers using headers_install from kernel sources.
 do_kernel_headers()
 {
-    local kernel_path
-    local kernel_arch
-
     CT_DoStep INFO "Installing kernel headers"
-
-    mkdir -p "${CT_BUILD_DIR}/build-kernel-headers"
-
-    kernel_path="${CT_SRC_DIR}/linux"
-    V_OPT="V=${CT_KERNEL_LINUX_VERBOSE_LEVEL}"
-
-    kernel_arch="${CT_ARCH}"
-    case "${CT_ARCH}:${CT_ARCH_BITNESS}" in
-        # ARM 64 (aka AArch64) is special
-        arm:64) kernel_arch="arm64";;
-    esac
-
-    CT_DoLog EXTRA "Installing kernel headers"
-    CT_DoExecLog ALL                                         \
-    make -C "${kernel_path}"                                 \
-         BASH="$(which bash)"                                \
-         HOSTCC="${CT_BUILD}-gcc"                            \
-         CROSS_COMPILE="${CT_TARGET}-"                       \
-         O="${CT_BUILD_DIR}/build-kernel-headers"            \
-         ARCH=${kernel_arch}                                 \
-         INSTALL_HDR_PATH="${CT_SYSROOT_DIR}/usr"            \
-         ${V_OPT}                                            \
-         headers_install
-
-    if [ "${CT_KERNEL_LINUX_INSTALL_CHECK}" = "y" ]; then
-        CT_DoLog EXTRA "Checking installed headers"
-        CT_DoExecLog ALL                                         \
-        make -C "${kernel_path}"                                 \
-             BASH="$(which bash)"                                \
-             HOSTCC="${CT_BUILD}-gcc"                            \
-             CROSS_COMPILE="${CT_TARGET}-"                       \
-             O="${CT_BUILD_DIR}/build-kernel-headers"            \
-             ARCH=${kernel_arch}                                 \
-             INSTALL_HDR_PATH="${CT_SYSROOT_DIR}/usr"            \
-             ${V_OPT}                                            \
-             headers_check
-    fi
-
-    # Cleanup
-    find "${CT_SYSROOT_DIR}" -type f                        \
-                             \(    -name '.install'         \
-                                -o -name '..install.cmd'    \
-                                -o -name '.check'           \
-                                -o -name '..check.cmd'      \
-                             \)                             \
-                             -exec rm {} \;
+    
+    rm -rf ${CT_SYSROOT_DIR}
+    mkdir -p ${CT_SYSROOT_DIR}
+    tar -xhvf ${CT_SYSROOT_SOURCE} -C ${CT_SYSROOT_DIR} --strip-components=1
 
     CT_EndStep
 }

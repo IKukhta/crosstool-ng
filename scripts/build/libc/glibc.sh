@@ -35,13 +35,15 @@ glibc_start_files()
 {
     # Start files and Headers should be configured the same way as the
     # final libc, but built and installed differently.
-    glibc_backend libc_mode=startfiles
+    # glibc_backend libc_mode=startfiles
+    :
 }
 
 # This function builds and install the full C library
 glibc_main()
 {
-    glibc_backend libc_mode=final
+    # glibc_backend libc_mode=final
+    :
 }
 
 # This backend builds the C library once for each multilib
