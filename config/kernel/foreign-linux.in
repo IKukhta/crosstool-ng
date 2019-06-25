@@ -1,0 +1,12 @@
+# Foreign Linux config options
+
+## no-package
+## select FOREIGN_LINUX
+## select KERNEL_SUPPORTS_SHARED_LIBS
+## 
+## help Build a toolchain targeting Linux system using running Linux as a kernel.
+## help
+
+config KERNEL_FOREIGN_LINUX_SYSROOT
+    string
+    prompt "Target system sysroot tarball path"

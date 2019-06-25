@@ -2,6 +2,10 @@
 
 menu "Operating System"
 
+# FIXME use CT_KERNEL_foreign_linux
+config FOREIGN_LINUX
+    bool
+
 # Config option used throughout the config and code to determine wether
 # we have a kernel or not (there might be different bare metal stuff)...
 # FIXME use CT_KERNEL_bare_metal instead
